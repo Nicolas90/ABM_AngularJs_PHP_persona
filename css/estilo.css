@@ -39,7 +39,7 @@ span{
 }
 
 
-input[type="text"],input[type="password"],input[type="email"]{
+input[type="text"],input[type="password"],input[type="email"],input[type="number"],input[type="date"]{
   width: 100%;
   display: block;
   color:black;
@@ -174,7 +174,7 @@ left:0px;
   -webkit-transition:opacity 1s;
 }
 
-#FormIngreso {
+#FormIngreso,#FormRegistro,#FormLogin {
 
   background:#f0f0f0;
   padding:6% 4%;

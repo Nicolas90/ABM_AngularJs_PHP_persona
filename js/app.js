@@ -139,3 +139,53 @@ app.controller('controlGrilla', function($scope, $http) {
 
 
 });
+
+
+app.controller('controlRegistro', function($scope, $http) {
+  $scope.DatoTest="**registro**";
+
+//inicio las variables
+  $scope.registro={};
+  /*
+  $scope.persona.nombre= "natalia" ;
+  $scope.persona.dni= "12312312" ;
+  $scope.persona.apellido= "natalia" ;
+  $scope.persona.foto="sinfoto";
+  */
+
+
+  $scope.Guardar=function(){
+
+
+    console.log("Registro de la persona:");
+    console.log($scope.registro);
+
+
+
+  }
+});
+
+app.controller('controlLogin', function($scope, $http) {
+  $scope.DatoTest="**registro**";
+
+//inicio las variables
+  $scope.login={};
+  $scope.login.minlength=7;
+
+
+  $scope.Ingresar=function(){
+
+
+    console.log("Datos de login:");
+    console.log($scope.login);
+
+
+    if (($scope.login.email=="123@q") && ($scope.login.password=="1234567")) 
+    {
+      console.log("validado");
+    };
+
+
+
+  }
+});
