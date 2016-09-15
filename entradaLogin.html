@@ -1,0 +1,54 @@
+<div class="container">
+		<div class="page-header">
+			<center> <h1>Datos {{DatoTest}}</h1>   </center>     
+		</div>
+		<div class="CajaInicio animated bounceInRight">
+			<h1> <!--?php echo $titulo; ?-->titulo </h1>
+
+			<form id="FormLogin"  enctype="multipart/form-data" name="FormLogin" >
+				
+
+
+
+				<input type="email" name="email" ng-model="login.email" placeholder="ingrese email" value=""   required  /> 
+				<span id="lblEmail" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+
+
+				<input type="password" name="password" ng-model="login.password" ng-minlength="login.minlength" placeholder="ingrese password" value=""    required />
+
+				
+
+
+
+				<!--p style='color: black;'>*El DNI no se puede modificar.</p> ": "" ; ?-->
+				
+				<input type="hidden" name="idOculto" id="id" value="" />
+				<!--
+				<input type="file" name="foto" />
+
+
+				<img  src="fotos/pordefecto.png" class="fotoform" id="foto"/>
+				<p style="  color: black;">*La foto se actualiza al guardar.</p>
+				-->
+
+				<button class="btn btn-info " ng-disabled="FormLogin.$invalid" name="ingresar" ng-click="Ingresar()" ><span class="glyphicon glyphicon-save">&nbsp;</span>Ingresar</button>
+				<!--   required en los campos del formulario hace que el estado valid o invalid cambie   -->
+
+
+
+
+
+				<button class="btn btn-info " ng-click="irALogin()" ><span class="glyphicon glyphicon-save">&nbsp;</span>Login 123</button>
+				<button class="btn btn-info " ng-click="irARegistro()" ><span class="glyphicon glyphicon-save">&nbsp;</span>Registro 123</button>
+
+
+
+
+				<input type="hidden" value="" id="idParaModificar" name="agregar" />
+				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
+				</div>
+
+			</form>
+	</div>
+	</div>

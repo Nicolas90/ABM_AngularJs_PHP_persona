@@ -43,23 +43,61 @@ miapp.config(function($stateProvider,$urlRouterProvider){
 			views:{
 				"contenido":
 				{
-					templateUrl:"personaalta.html",
-					controller:"controlPersonaalta"
+					templateUrl:"personaAlta.html",
+					controller:"controlPersonaAlta"
 				}
 				
 			}
 		}
 		)
 	.state(
-		"persona.login",
+		"persona.grilla",
+		{
+			url:'/grilla',
+			//templateUrl:"personaalta.html"
+			views:{
+				"contenido":
+				{
+					templateUrl:"personaGrilla.html",
+					controller:"controlPersonaGrilla"
+				}
+				
+			}
+		}
+		)
+	.state(
+		"entrada",
+		{
+			url:'/entrada',
+			abstract:true,
+			templateUrl:"abstractaEntrada.html"
+		}
+		)
+	.state(
+		"entrada.login",
 		{
 			url:'/login',
 			//templateUrl:"personaalta.html"
 			views:{
 				"contenido":
 				{
-					templateUrl:"personalogin.html",
-					controller:"controlPersonalogin"
+					templateUrl:"entradaLogin.html",
+					controller:"controlEntradaLogin"
+				}
+				
+			}
+		}
+		)
+	.state(
+		"entrada.registro",
+		{
+			url:'/registro',
+			//templateUrl:"personaalta.html"
+			views:{
+				"contenido":
+				{
+					templateUrl:"entradaRegistro.html",
+					controller:"controlEntradaRegistro"
 				}
 				
 			}
@@ -86,15 +124,74 @@ miapp.controller("controlPersonaMenu",function($scope,$state){
 			ejemplo  para un redireccionamiento en un html
 		*/
 	};
+});
+
+miapp.controller("controlPersonaAlta",function($scope){
+
 
 });
 
-miapp.controller("controlPersonaalta",function($scope){
-
+miapp.controller("controlPersonaGrilla",function($scope){
+	//aca deberia copiar lo de app.js , el controlador de grilla
 
 });
 
-miapp.controller("controlPersonalogin",function($scope){
 
+miapp.controller("controlEntradaLogin",function($scope,$state){
+
+
+
+
+  $scope.Ingresar=function(){
+    console.log("Logueo de la persona:");
+    console.log($scope.login);
+
+
+    $state.go("persona.menu");
+  };
+
+
+  $scope.irALogin=function(){
+  	console.log("irALogin");
+  	$state.go("entrada.login");
+  };
+$scope.irARegistro=function(){
+  	console.log("irARegistro");
+  	$state.go("entrada.registro");
+  };
+
+});
+
+
+miapp.controller("controlEntradaRegistro",function($scope,$state){
+  $scope.DatoTest="**registro**";
+
+//inicio las variables
+  $scope.registro={};
+  /*
+  $scope.persona.nombre= "natalia" ;
+  $scope.persona.dni= "12312312" ;
+  $scope.persona.apellido= "natalia" ;
+  $scope.persona.foto="sinfoto";
+  */
+
+
+  $scope.Registrarse=function(){
+    console.log("Registro de la persona:");
+    console.log($scope.registro);
+
+
+    $state.go("persona.menu");
+  };
+
+
+  $scope.irARegistro=function(){
+  	console.log("irARegistro");
+  	$state.go("entrada.registro");
+  };
+$scope.irALogin=function(){
+  	console.log("irALogin");
+  	$state.go("entrada.login");
+  };
 
 });
