@@ -1,0 +1,90 @@
+<div class="container">
+		<div class="page-header">
+			<center> <h1>Datos {{DatoTest}}</h1>   </center>     
+		</div>
+		<div class="CajaInicio animated bounceInRight">
+			<h1> <!--?php echo $titulo; ?-->titulo </h1>
+
+			<form id="FormRegistro"  enctype="multipart/form-data" name="FormRegistro" >
+				
+				<!--           CLASE3               -->
+				<input type="checkbox" ng-model="ver"/>
+				<span>{{ver}}</span>
+				
+
+
+				<input type="text" name="nombre" ng-model="registro.nombre" placeholder="ingrese nombre" value="" required/> <span id="lblNombre" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+				
+
+				<input type="text" name="apellido" ng-model="registro.apellido" placeholder="ingrese apellido" value="" required/>
+				<span id="lblApellido" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*
+				</span>
+
+				<input type="number" min="1" max="100" name="dni" ng-model="registro.edad" placeholder="ingrese edad" value=""   required  /> 
+				<span id="lblEdad" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+				<span>Sexo:</span>	<br>
+				<span>Masculino</span>
+				<input type="radio" name="sexo" ng-model="registro.sexo" value="Masculino" required/>
+				<span>Femenino</span>
+				<input type="radio" name="sexo" ng-model="registro.sexo" value="Femenino"/>
+				<span>Otro</span>
+				<input type="radio" name="sexo" ng-model="registro.sexo" value="Otro"/>
+				<span id="lblSexo" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+
+				<input type="number" min="1000000" name="dni" ng-model="registro.dni" placeholder="ingrese dni" value=""   required  /> 
+				<span id="lblDni" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+
+				<input type="email" name="email" ng-model="registro.email" placeholder="ingrese email" value=""   required  /> 
+				<span id="lblEmail" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+
+				<input type="date" name="nacimiento" ng-model="registro.nacimiento" placeholder="ingrese fecha de nacimiento" value=""   required  /> 
+				<span id="lblNacimiento" style="display:none;color:#FF0000;width:1%;float:right;font-size:80">*</span>
+
+
+				<span>Lenguajes conocidos:</span>	<br>
+				<input type="checkbox" name="lenguajeProg1" ng-model="registro.lenguajeProg1" value="C"/><span>C</span><br>
+				<input type="checkbox" name="lenguajeProg2" ng-model="registro.lenguajeProg2" value="C#"/><span>C#</span><br>
+				<input type="checkbox" name="lenguajeProg3" ng-model="registro.lenguajeProg3" value="C++"/><span>C++</span><br>
+				<input type="checkbox" name="lenguajeProg4" ng-model="registro.lenguajeProg4" value="Java"/><span>Java</span><br>
+				<input type="checkbox" name="lenguajeProg5" ng-model="registro.lenguajeProg5" value="Python"/><span>Python</span><br>
+
+
+
+
+
+
+
+				<input type="password" name="password" ng-model="registro.password" placeholder="ingrese dni" value=""    required />
+
+				<input type="password" name="copiaPassword" ng-model="registro.copiaPassword" placeholder="ingrese dni" value=""   required  />
+
+				
+
+
+
+				<!--p style='color: black;'>*El DNI no se puede modificar.</p> ": "" ; ?-->
+				
+				<input type="hidden" name="idOculto" id="id" value="" />
+				<!--
+				<input type="file" name="foto" />
+
+
+				<img  src="fotos/pordefecto.png" class="fotoform" id="foto"/>
+				<p style="  color: black;">*La foto se actualiza al guardar.</p>
+				-->
+
+				<a class="btn btn-info " ng-disabled="FormRegistro.$invalid" name="guardar" ng-click="Guardar()" ><span class="glyphicon glyphicon-save">&nbsp;</span>Guardar</a>
+				<!--   required en los campos del formulario hace que el estado valid o invalid cambie   -->
+
+
+				<input type="hidden" value="" id="idParaModificar" name="agregar" />
+				<input type="hidden" value="" id="hdnAgregar" name="agregar" />
+				</div>
+
+			</form>
+	</div>
+	</div>
