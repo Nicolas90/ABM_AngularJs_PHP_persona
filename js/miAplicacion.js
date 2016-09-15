@@ -17,7 +17,8 @@ miapp.config(function($stateProvider,$urlRouterProvider){
 		{
 			url:'/persona',
 			abstract:true,
-			templateUrl:"abstractaPersona.html"
+			templateUrl:"abstractaPersona.html",
+			controller:"controlPersonaAbstracta"
 		}
 		)
 	.state(
@@ -70,7 +71,8 @@ miapp.config(function($stateProvider,$urlRouterProvider){
 		{
 			url:'/entrada',
 			abstract:true,
-			templateUrl:"abstractaEntrada.html"
+			templateUrl:"abstractaEntrada.html",
+			controller:"controlEntrada"
 		}
 		)
 	.state(
@@ -103,6 +105,30 @@ miapp.config(function($stateProvider,$urlRouterProvider){
 			}
 		}
 		)
+	.state(
+		"juego",
+		{
+			url:'/juego',
+			abstract:true,
+			templateUrl:"abstractaJuegos.html",
+			//controller:"controlPersonaAbstracta"
+		}
+		)
+	.state(
+		"juego.adivinaElNumero2",
+		{
+			url:'/adivinaElNumero2',
+			//templateUrl:"personaMenu.html"
+			views:{
+				"contenido":
+				{
+					templateUrl:"AdivinaElNumero2.html",
+					controller:"controladorAdivinaElNumero2"
+				}
+				
+			}
+		}
+		)
 	$urlRouterProvider.otherwise("/inicio");
 
 
@@ -112,6 +138,13 @@ miapp.controller("controlInicio",function($scope){
 
 
 });
+
+
+miapp.controller("controlPersonaAbstracta",function($scope){
+	//aca deberia hacer los  $state.go para que se redireccione hacia las paginas persona y no a los formularios
+
+});
+
 
 miapp.controller("controlPersonaMenu",function($scope,$state){
 
@@ -137,6 +170,21 @@ miapp.controller("controlPersonaGrilla",function($scope){
 });
 
 
+miapp.controller("controlEntrada",function($scope,$state){
+
+
+  $scope.irALogin=function(){
+  	console.log("irALogin");
+  	$state.go("entrada.login");
+  };
+$scope.irARegistro=function(){
+  	console.log("irARegistro");
+  	$state.go("entrada.registro");
+  };
+
+});
+
+
 miapp.controller("controlEntradaLogin",function($scope,$state){
 
 
@@ -151,7 +199,10 @@ miapp.controller("controlEntradaLogin",function($scope,$state){
   };
 
 
-  $scope.irALogin=function(){
+
+
+  	/*sacar esto y los botones en el html, solo esta de prueba*/
+$scope.irALogin=function(){
   	console.log("irALogin");
   	$state.go("entrada.login");
   };
@@ -159,7 +210,6 @@ $scope.irARegistro=function(){
   	console.log("irARegistro");
   	$state.go("entrada.registro");
   };
-
 });
 
 
@@ -185,6 +235,9 @@ miapp.controller("controlEntradaRegistro",function($scope,$state){
   };
 
 
+
+
+  	/*sacar esto y los botones en el html, solo esta de prueba*/
   $scope.irARegistro=function(){
   	console.log("irARegistro");
   	$state.go("entrada.registro");
@@ -194,4 +247,52 @@ $scope.irALogin=function(){
   	$state.go("entrada.login");
   };
 
+});
+
+
+
+miapp.controller('controladorAdivinaElNumero2',function($scope){
+	$scope.datos={};
+	$scope.datos.NumeroIngresado="Ingrese número";
+	$scope.datos.Intentos="intentos";
+	
+	var numeroSecreto = 0;
+
+
+
+	$scope.comenzar=function(){
+
+		$scope.datos.Intentos = 0;
+  		numeroSecreto = Math.floor((Math.random() * 100) + 1);
+
+  		alert(numeroSecreto);
+ 	}
+
+ 	$scope.verificar=function(){
+  		
+ 		++$scope.datos.Intentos;
+ 		var num = parseInt($scope.datos.NumeroIngresado);
+
+ 		if ( num > numeroSecreto ) 
+ 		{
+ 			alert("se pasó…");
+ 		}
+ 		else if ( num < numeroSecreto ) 
+ 		{
+ 			alert("falta…");
+ 		}
+ 		else
+ 		{
+ 			if ($scope.datos.Intentos==1) { alert("usted es un Psíquico"); }
+ 			else if ($scope.datos.Intentos==2) { alert("excelente percepción"); }
+ 			else if ($scope.datos.Intentos==3) { alert("Esto es suerte"); }
+ 			else if ($scope.datos.Intentos==4) { alert("Excelente técnica"); }
+ 			else if ($scope.datos.Intentos==5) { alert("usted está en la media"); }
+ 			else if (($scope.datos.Intentos>=6) && ($scope.datos.Intentos<10)) { alert("falta técnica"); }
+ 			else if ($scope.datos.Intentos>=10) { alert("afortunado en el amor!!"); }
+ 			
+
+ 			//alert("Usted es un ganador!!! y en solo " + $scope.datos.Intentos + " intentos");
+ 		}
+ 	}
 });
