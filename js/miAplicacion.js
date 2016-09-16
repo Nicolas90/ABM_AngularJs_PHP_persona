@@ -1,4 +1,4 @@
-var miapp = angular.module("angularABM",['ui.router']);
+var miapp = angular.module("angularABM",['ui.router','angularFileUpload']);
 
 
 miapp.config(function($stateProvider,$urlRouterProvider){
@@ -134,13 +134,13 @@ miapp.config(function($stateProvider,$urlRouterProvider){
 
 });
 
-miapp.controller("controlInicio",function($scope){
+miapp.controller("controlInicio",function($scope,$state){
 
 
 });
 
 
-miapp.controller("controlPersonaAbstracta",function($scope){
+miapp.controller("controlPersonaAbstracta",function($scope,$state){
 	//aca deberia hacer los  $state.go para que se redireccione hacia las paginas persona y no a los formularios
 
 });
@@ -159,12 +159,60 @@ miapp.controller("controlPersonaMenu",function($scope,$state){
 	};
 });
 
-miapp.controller("controlPersonaAlta",function($scope){
+miapp.controller("controlPersonaAlta",function($scope,$state,$http,FileUploader){
+	$scope.DatoTest="**alta**";
 
+//inicio las variables
+
+  $scope.registro={};
+  $scope.registro.nombre= "natalia" ;
+  $scope.registro.apellido= "natalia" ;
+  $scope.registro.edad= 20 ;
+  $scope.registro.dni= 1234567 ;
+  $scope.registro.email= "qwe@asd" ;
+  $scope.registro.password= "123" ;
+  $scope.registro.copiaPassword= "123" ;
+
+
+  //$scope.persona.foto="sinfoto";
+
+
+
+  $scope.SubidorDeArchivos = new FileUploader({url:'servidor/archivos.php'});
+  $scope.SubidorDeArchivos.onSuccessItem=function(item,response,status,headers){
+
+  	console.info('onSuccessItem', item, response, status, headers);
+
+  };
+
+
+
+
+
+  $scope.Guardar=function(){
+
+
+  	console.log("persona a guardar:");
+    console.log($scope.registro);
+
+    /*
+    $http.post('PHP/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
+ 	  .then(function(respuesta) {     	
+ 		     //aca se ejetuca si retorno sin errores      	
+      	 console.log(respuesta.data);
+
+    },function errorCallback(response) {     		
+     		//aca se ejecuta cuando hay errores
+     		console.log( response);     			
+ 	  });
+
+  */
+
+  }
 
 });
 
-miapp.controller("controlPersonaGrilla",function($scope){
+miapp.controller("controlPersonaGrilla",function($scope,$state){
 	//aca deberia copiar lo de app.js , el controlador de grilla
 
 });
@@ -251,7 +299,7 @@ $scope.irALogin=function(){
 
 
 
-miapp.controller('controladorAdivinaElNumero2',function($scope){
+miapp.controller('controladorAdivinaElNumero2',function($scope,$state){
 	$scope.datos={};
 	$scope.datos.NumeroIngresado="Ingrese número";
 	$scope.datos.Intentos="intentos";
