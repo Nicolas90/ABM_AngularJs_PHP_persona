@@ -24,6 +24,7 @@
     "components-font-awesome": "^4.6.3",
     "angular-ui-router": "0.3.1",
     "estilos": "https://github.com/octaviovillegas/estilos.git",
-    "angular-file-upload": "^2.3.4"
+    "angular-file-upload": "^2.3.4",
+    "satellizer": "^0.15.5"
   }
 }

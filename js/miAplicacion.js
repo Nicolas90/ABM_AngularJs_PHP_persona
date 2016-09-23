@@ -1,7 +1,14 @@
-var miapp = angular.module("angularABM",['ui.router','angularFileUpload']);
+var miapp = angular.module("angularABM",['ui.router','angularFileUpload','satellizer']);
 
 
-miapp.config(function($stateProvider,$urlRouterProvider){
+miapp.config(function($stateProvider,$urlRouterProvider,$authProvider){
+
+	//$authProvider.loginUrl = 'ABM_AngularJs_PHP_Persona';
+	$authProvider.loginUrl = 'ABM_AngularJs_PHP_persona/jwt/php/auth.php';
+	$authProvider.tokenName = 'ElNombreDelToken';
+	$authProvider.tokenPrefix = 'Aplicacion';
+	$authProvider.authHeader = 'data';
+
 
 	$stateProvider
 	.state(
@@ -212,7 +219,13 @@ miapp.controller("controlPersonaAbstracta",function($scope,$state){
 });
 
 
-miapp.controller("controlPersonaMenu",function($scope,$state){
+miapp.controller("controlPersonaMenu",function($scope,$state,$auth){
+
+	if (!$auth.isAuthenticated()) 
+	{
+		$state.go("entrada.login");
+	}
+
 
 	$scope.iraalta = function(){
 
@@ -299,31 +312,46 @@ $scope.irARegistro=function(){
 });
 
 
-miapp.controller("controlEntradaLogin",function($scope,$state){
+miapp.controller("controlEntradaLogin",function($scope,$state,$auth){
+$scope.login={};
+$scope.login.email="email@qwe";
+$scope.login.password="1234";
 
+
+/*
+	if ($auth.isAuthenticated()) 
+	{
+		console.log("token",$auth.getPayload());
+	}
+	else
+	{
+		console.log("no token",$auth.getPayload());
+	}
+*/
 
 
 
   $scope.Ingresar=function(){
-    console.log("Logueo de la persona:");
-    console.log($scope.login);
+    
+    //esto es una llamada $http , va a ir a $authProvider.loginUrl , en este caso es 'ABM_AngularJs_PHP_persona/jwt/php/auth.php';
+    $auth.login($scope.login).then(function(response){
 
+    	console.info("correcto",response);
+    	console.log("token ingresado",$auth.getPayload());
 
-    $state.go("persona.menu");
+    	$state.go("persona.menu");
+
+    }).catch(function(response){
+    	console.info("NO VOLVIO BIEN",response);
+    });
   };
 
+	$scope.Token=function(){
 
+    	
+    	console.log("token ingresado",$auth.getPayload());
+    };
 
-
-  	/*sacar esto y los botones en el html, solo esta de prueba*/
-$scope.irALogin=function(){
-  	console.log("irALogin");
-  	$state.go("entrada.login");
-  };
-$scope.irARegistro=function(){
-  	console.log("irARegistro");
-  	$state.go("entrada.registro");
-  };
 });
 
 
@@ -347,20 +375,6 @@ miapp.controller("controlEntradaRegistro",function($scope,$state){
 
     $state.go("persona.menu");
   };
-
-
-
-
-  	/*sacar esto y los botones en el html, solo esta de prueba*/
-  $scope.irARegistro=function(){
-  	console.log("irARegistro");
-  	$state.go("entrada.registro");
-  };
-$scope.irALogin=function(){
-  	console.log("irALogin");
-  	$state.go("entrada.login");
-  };
-
 });
 
 
