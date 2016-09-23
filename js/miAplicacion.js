@@ -317,6 +317,7 @@ $scope.login={};
 $scope.login.email="email@qwe";
 $scope.login.password="1234";
 
+$auth.logout();//para destruir si tengo un token de antes,aunque este expirado y no me deje pasar a menu igual lo destruyo por si las dudas
 
 /*
 	if ($auth.isAuthenticated()) 
