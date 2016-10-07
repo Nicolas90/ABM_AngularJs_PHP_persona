@@ -47,8 +47,25 @@ app.controller('controlGrilla', function($scope, $http) {
 
 
 
+  $http.get('http://localhost:8080/ws1/usuarios')//"http://www.mocky.io/v2/57c8ab94120000be13e76a92")
+  .then(function bien(respuesta){
+
+    console.info("volvio: ",respuesta.data);
 
 
+    $scope.ListadoPersonas = respuesta.data;
+
+
+  },function mal(error){
+
+    console.info("error: ",error);
+
+    $scope.ListadoPersonas = [];
+
+  });
+
+
+  /*
   $http.get("http://www.mocky.io/v2/57c8ab94120000be13e76a92")
   .then(function bien(respuesta){
 
@@ -65,6 +82,9 @@ app.controller('controlGrilla', function($scope, $http) {
     $scope.ListadoPersonas = [];
 
   });
+*/
+
+
  /*	$http.get('PHP/nexo.php', { params: {accion :"traer"}})
  	.then(function(respuesta) {     	
 

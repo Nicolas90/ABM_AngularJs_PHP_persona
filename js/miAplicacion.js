@@ -292,8 +292,47 @@ miapp.controller("controlPersonaAlta",function($scope,$state,$http,FileUploader)
 });
 
 miapp.controller("controlPersonaGrilla",function($scope,$state){
-	//aca deberia copiar lo de app.js , el controlador de grilla
+		$scope.DatoTest="**grilla**";
+ 	console.log("estoy en la grilla");
 
+
+
+  $http.get('http://localhost:8080/ws1/usuarios')//"http://www.mocky.io/v2/57c8ab94120000be13e76a92")
+  .then(function bien(respuesta){
+
+    console.info("volvio: ",respuesta.data);
+
+
+    $scope.ListadoPersonas = respuesta.data;
+
+
+  },function mal(error){
+
+    console.info("error: ",error);
+
+    $scope.ListadoPersonas = [];
+
+  });
+
+/*
+
+	$http.get("http://www.mocky.io/v2/57c8ab94120000be13e76a92")
+  .then(function bien(respuesta){
+
+    console.info("volvio: ",respuesta.data);
+
+
+    $scope.ListadoPersonas = respuesta.data;
+
+
+  },function mal(error){
+
+    console.info("error: ",error);
+
+    $scope.ListadoPersonas = [];
+
+  });
+*/
 });
 
 
@@ -462,7 +501,7 @@ miapp.controller('controlAlta', function($scope, $http, $state, FileUploader) {
   
 
 //inicio las variables
-  $scope.uploader=new FileUploader({url:'PHP/nexo.php'});
+  $scope.uploader=new FileUploader({url:'http://localhost:8080/ws1/foto'});
   $scope.persona={};
   $scope.persona.nombre= "natalia" ;
   $scope.persona.dni= "12312312" ;
@@ -472,30 +511,33 @@ miapp.controller('controlAlta', function($scope, $http, $state, FileUploader) {
   //$scope.persona.foto="fotos/pordefecto.png";
   $scope.uploader.onSuccessItem=function(item, response, status, headers)
   {
-	$http.post('PHP/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
+	//$http.post('PHP/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
+	$http.post('http://localhost:8080/ws1/alta/' + JSON.stringify($scope.persona))
 	  .then(function(respuesta) {     	
-			 //aca se ejetuca si retorno sin errores      	
-		 console.log(respuesta.data);
+			 //aca se ejetuca si retorno sin errores  
+			 //console.info("lalalalala" + respuesta.data);
+
+		 //console.log(respuesta.data);
 		 $state.go("persona.grillaOriginal");
 
 	},function errorCallback(response) {     		
 			//aca se ejecuta cuando hay errores
 			console.log( response);     			
 	  });
-	console.info("Ya guardé el archivo.", item, response, status, headers);
+	//console.info("Ya guardé el archivo.", item, response, status, headers);
   };
 
 
   $scope.Guardar=function(){
-	console.log($scope.uploader.queue);
+	//console.log($scope.uploader.queue);
 	if($scope.uploader.queue[0]!=undefined)
 	{
 		var nombreFoto = $scope.uploader.queue[0]._file.name;
 		$scope.persona.foto=nombreFoto;
 	}
 	$scope.uploader.uploadAll();
-  	console.log("persona a guardar:");
-    console.log($scope.persona);
+  	//console.log("persona a guardar:");
+    //console.log($scope.persona);
 	
 
   
@@ -509,10 +551,19 @@ miapp.controller('controlAlta', function($scope, $http, $state, FileUploader) {
 miapp.controller('controlGrilla', function($scope, $http, $state) {
   	$scope.DatoTest="**grilla**";
  	
- 	$http.get('PHP/nexo.php', { params: {accion :"traer"}})
+
+
+
+
+
+
+
+
+
+ 	$http.get('http://localhost:8080/ws1/usuarios')
  	.then(function(respuesta) {     	
 
-      	 $scope.ListadoPersonas = respuesta.data.listado;
+      	 $scope.ListadoPersonas = respuesta.data;
       	 console.log(respuesta.data);
 
     },function errorCallback(response) {
