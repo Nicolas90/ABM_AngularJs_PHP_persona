@@ -501,7 +501,8 @@ miapp.controller('controlAlta', function($scope, $http, $state, FileUploader) {
   
 
 //inicio las variables
-  $scope.uploader=new FileUploader({url:'http://localhost:8080/ws1/foto'});
+  //$scope.uploader=new FileUploader({url:'http://localhost:8080/ws1/foto'});
+  $scope.uploader=new FileUploader({url:'http://localhost/ws1/foto'});
   $scope.persona={};
   $scope.persona.nombre= "natalia" ;
   $scope.persona.dni= "12312312" ;
@@ -512,14 +513,20 @@ miapp.controller('controlAlta', function($scope, $http, $state, FileUploader) {
   $scope.uploader.onSuccessItem=function(item, response, status, headers)
   {
 	//$http.post('PHP/nexo.php', { datos: {accion :"insertar",persona:$scope.persona}})
-	$http.post('http://localhost:8080/ws1/alta/' + JSON.stringify($scope.persona))
+	//$http.post('http://localhost:8080/ws1/alta/' + JSON.stringify($scope.persona))
+	$http.post('http://localhost/ws1/alta/' + JSON.stringify($scope.persona))
 	  .then(function(respuesta) {     	
 			 //aca se ejetuca si retorno sin errores  
 			 //console.info("lalalalala" + respuesta.data);
 
 		 //console.log(respuesta.data);
-		 $state.go("persona.grillaOriginal");
+		 
 
+		 $state.go("persona.grillaOriginal");
+		 /*
+				cuando cargo la imagen por primera vez, en la grilla me da un error de GET
+				y me la reconoce en menos de medio segundo, ver que pasa con eso
+		 */
 	},function errorCallback(response) {     		
 			//aca se ejecuta cuando hay errores
 			console.log( response);     			
@@ -530,6 +537,7 @@ miapp.controller('controlAlta', function($scope, $http, $state, FileUploader) {
 
   $scope.Guardar=function(){
 	//console.log($scope.uploader.queue);
+	
 	if($scope.uploader.queue[0]!=undefined)
 	{
 		var nombreFoto = $scope.uploader.queue[0]._file.name;
@@ -560,11 +568,13 @@ miapp.controller('controlGrilla', function($scope, $http, $state) {
 
 
 
- 	$http.get('http://localhost:8080/ws1/usuarios')
+ 	//$http.get('http://localhost:8080/ws1/usuarios')
+ 	$http.get('http://localhost/ws1/usuarios')
  	.then(function(respuesta) {     	
 
       	 $scope.ListadoPersonas = respuesta.data;
-      	 console.log(respuesta.data);
+      	 console.log("Listado de Personas1:",respuesta.data);
+      	 
 
     },function errorCallback(response) {
      		 $scope.ListadoPersonas= [];
@@ -593,29 +603,46 @@ miapp.controller('controlGrilla', function($scope, $http, $state) {
 	};*/
 
  	$scope.Borrar=function(persona){
-		console.log("borrar"+persona);
+		console.log("borrar",persona);
+
+
+		//$http.post('http://localhost/ws1/alta/' + JSON.stringify($scope.persona))
+		$http.delete('http://localhost/ws1/borrar/' + JSON.stringify(persona.id))
+ 			.then(function(respuesta) {       
+	        //aca se ejetuca si retorno sin errores        
+	        console.log("respuesta",respuesta.data);
 
 
 
-$http.post("PHP/nexo.php",{datos:{accion :"borrar",persona:persona}},{headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
- .then(function(respuesta) {       
-         //aca se ejetuca si retorno sin errores        
-         console.log(respuesta.data);
-		 $http.get('PHP/nexo.php', { params: {accion :"traer"}})
-		.then(function(respuesta) {     	
 
-			 $scope.ListadoPersonas = respuesta.data.listado;
-			 console.log(respuesta.data);
+	        /*
+	        
+			//$http.get('PHP/nexo.php', { params: {accion :"traer"}})
+			$http.get('http://localhost/ws1/usuarios')
+				.then(function(respuesta) {     	
 
-		},function errorCallback(response) {
-				 $scope.ListadoPersonas= [];
-				console.log( response);
-		 });
+					 $scope.ListadoPersonas = respuesta.data.listado;
+					 console.log("Listado de Personas2: ",respuesta.data); 
+					 
 
-    },function errorCallback(response) {        
-        //aca se ejecuta cuando hay errores
-        console.log( response);           
-    });
+				}
+				,function errorCallback(response) {
+						 $scope.ListadoPersonas= [];
+						console.log("errorCallback: "); 
+						console.log( response);
+				});
+			
+			*/
+
+
+
+
+		    },function errorCallback(response) {        
+		        //aca se ejecuta cuando hay errores
+		        console.log( response);           
+		    });
+
+
 
 /*
      $http.post('PHP/nexo.php', 
@@ -672,7 +699,8 @@ miapp.controller('controlModificacion', function($scope, $http, $state, $statePa
 {
 	$scope.persona={};
 	$scope.DatoTest="**Modificar**";
-	$scope.uploader=new FileUploader({url:'PHP/nexo.php'});
+	//$scope.uploader=new FileUploader({url:'PHP/nexo.php'});
+	$scope.uploader=new FileUploader({url:'http://localhost/ws1/foto'})
 	console.log($stateParams);//$scope.persona=$stateParams;
 	$scope.persona.id=$stateParams.id;
 	$scope.persona.nombre=$stateParams.nombre;
@@ -681,7 +709,9 @@ miapp.controller('controlModificacion', function($scope, $http, $state, $statePa
 	$scope.persona.foto=$stateParams.foto;
 	$scope.uploader.onSuccessItem=function(item, response, status, headers)
 	{
-		$http.post('PHP/nexo.php', { datos: {accion :"modificar",persona:$scope.persona}})
+
+		//$http.post('PHP/nexo.php', { datos: {accion :"modificar",persona:$scope.persona}})
+		$http.put('http://localhost/ws1/modificar/' + JSON.stringify($scope.persona))
 		.then(function(respuesta) 
 		{
 			//aca se ejetuca si retorno sin errores      	
