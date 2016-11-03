@@ -556,143 +556,59 @@ miapp.controller('controlAlta', function($scope, $http, $state, FileUploader) {
 
 
 
-miapp.controller('controlGrilla', function($scope, $http, $state) {
+miapp.controller('controlGrilla', function($scope, $http, $state, GrillaABM) {
   	$scope.DatoTest="**grilla**";
  	
 
 
+  	GrillaABM.traerListado().then(function(respuesta){
+  		
+	  	//console.info("Respuesta en controlGrilla: ",respuesta);
+  		$scope.ListadoPersonas = respuesta;
+  		
+
+  	},function(error){
+
+        console.info("Error en listado controlGrilla: ",error);
+
+  	});
 
 
 
-
-
-
-
- 	//$http.get('http://localhost:8080/ws1/usuarios')
- 	$http.get('http://localhost/ws1/usuarios')
- 	.then(function(respuesta) {     	
-
-      	 $scope.ListadoPersonas = respuesta.data;
-      	 console.log("Listado de Personas1:",respuesta.data);
-      	 
-
-    },function errorCallback(response) {
-     		 $scope.ListadoPersonas= [];
-     		console.log( response);
-     			/*
-
-					https://docs.angularjs.org/api/ng/service/$http
-
-     			the response object has these properties:
-
-				data – {string|Object} – The response body transformed with the transform functions.
-				status – {number} – HTTP status code of the response.
-				headers – {function([headerName])} – Header getter function.
-				config – {Object} – The configuration object that was used to generate the request.
-				statusText – {string} – HTTP status text of the response.
-						A response status code between 200 and 299 is considered a success
-						 status and will result in the success callback being called. 
-						 Note that if the response is a redirect, XMLHttpRequest will 
-						 transparently follow it, meaning that 
-						 the error callback will not be called for such responses.
- 	 */
- 	 });
-	/*$scope.Modificar=function(persona)
-	{
-		$state.go("modificacion", persona);
-	};*/
 
  	$scope.Borrar=function(persona){
-		console.log("borrar",persona);
+		console.log("Borrar persona:",persona);
 
-
-		//$http.post('http://localhost/ws1/alta/' + JSON.stringify($scope.persona))
-		$http.delete('http://localhost/ws1/borrar/' + JSON.stringify(persona.id))
- 			.then(function(respuesta) {       
-	        //aca se ejetuca si retorno sin errores        
-	        console.log("respuesta",respuesta.data);
+		GrillaABM.borrarPersona(JSON.stringify(persona.id)).then(function(respuesta) {            
+	        //console.log("Respuesta borrar en controlGrilla",respuesta);
 
 
 
+	        GrillaABM.traerListado().then(function(respuesta){
 
-	        /*
-	        
-			//$http.get('PHP/nexo.php', { params: {accion :"traer"}})
-			$http.get('http://localhost/ws1/usuarios')
-				.then(function(respuesta) {     	
+		  		
+			  	//console.info("Respuesta en controlGrilla: ",respuesta);
+		  		$scope.ListadoPersonas = respuesta;
+		  		
 
-					 $scope.ListadoPersonas = respuesta.data.listado;
-					 console.log("Listado de Personas2: ",respuesta.data); 
-					 
+			  	},function(error){
 
-				}
-				,function errorCallback(response) {
-						 $scope.ListadoPersonas= [];
-						console.log("errorCallback: "); 
-						console.log( response);
-				});
-			
-			*/
+			        console.info("Error en listado controlGrilla: ",error);
+
+			  	});
 
 
 
+		    },function(error){
 
-		    },function errorCallback(response) {        
-		        //aca se ejecuta cuando hay errores
-		        console.log( response);           
-		    });
+     		   console.info("Error en borrar controlGrilla: ",error);
 
-
-
-/*
-     $http.post('PHP/nexo.php', 
-      headers: 'Content-Type': 'application/x-www-form-urlencoded',
-      params: {accion :"borrar",persona:persona})
-    .then(function(respuesta) {       
-         //aca se ejetuca si retorno sin errores        
-         console.log(respuesta.data);
-
-    },function errorCallback(response) {        
-        //aca se ejecuta cuando hay errores
-        console.log( response);           
-    });
-
-*/
+  			});
  	}
-
-
-
-
- 	/*$scope.Modificar=function(persona){
- 		$http.post('PHP/nexo.php', { datos: {accion :"modificar",persona:$scope.persona}})
-		  .then(function(respuesta) {     	
-				 //aca se ejetuca si retorno sin errores      	
-			 console.log(respuesta.data);
-			 location.href="formGrilla.html";
-
-		},function errorCallback(response) {     		
-				//aca se ejecuta cuando hay errores
-				console.log( response);     			
-		  });
- 		/*console.log("Modificar"+id);
-		$http.post("PHP/nexo.php", {datos:{accion:"buscar", id:id}})
-		.then(function(respuesta)
-		{
-			var persona=respuesta.data;
-			$state.go("alta");//location.href="formAlta.html";
-			$scope.DatoTest=persona.nombre;
-			console.log(persona);
-		} ,function errorCallback(response) {        
-			//aca se ejecuta cuando hay errores
-			console.log(response);           
-		});
- 	}*/
-
-
-
-
-
 });
+
+
+
 
 
 miapp.controller('controlModificacion', function($scope, $http, $state, $stateParams, FileUploader)//, $routeParams, $location)
@@ -740,3 +656,115 @@ miapp.controller('controlModificacion', function($scope, $http, $state, $statePa
 
 
 /*		ORIGINALES (MODIFICADOS)	FIN		*/
+
+
+
+miapp.service('GrillaABM', function ($http) {
+    
+    this.nombre = "GrillaABM";
+    this.traerListado = traerListado;
+    var UsusariosUrl = 'http://localhost/ws1/usuarios';
+    this.borrarPersona = borrarPersona;
+    var BorrarPersonaUrl = 'http://localhost/ws1/borrar/';
+
+
+
+
+    function traerListado(){
+
+    	return $http.get(UsusariosUrl).then(
+
+
+    		function(respuesta){
+    			//console.info("respuesta en servicio GrillaABM: ",respuesta.data);
+
+    			return respuesta.data;
+    		}
+    		,function(error){
+    			console.info("Error en servicio GrillaABM: ",error);
+
+    			return error;
+    		}
+    		);
+
+    }
+
+
+    function borrarPersona(personaID){
+
+
+		return	$http.delete(BorrarPersonaUrl + personaID).then(
+
+
+			function(respuesta) {       
+		        //aca se ejetuca si retorno sin errores        
+		        //console.log("Borrar en servicio GrillaABM: ",respuesta);
+
+
+		        return respuesta;
+		    }
+		    ,function(error){
+    			//console.info("Error en borrar GrillaABM: ",error);
+
+    			return error;
+    		}
+    		);
+}
+
+
+miapp.service('AltaABM', function ($http) {
+    
+    this.nombre = "GrillaABM";
+    this.traerListado = traerListado;
+    var UsusariosUrl = 'http://localhost/ws1/usuarios';
+    this.borrarPersona = borrarPersona;
+    var BorrarPersonaUrl = 'http://localhost/ws1/borrar/';
+
+
+
+
+    function traerListado(){
+
+    	return $http.get(UsusariosUrl).then(
+
+
+    		function(respuesta){
+    			//console.info("respuesta en servicio GrillaABM: ",respuesta.data);
+
+    			return respuesta.data;
+    		}
+    		,function(error){
+    			console.info("Error en servicio GrillaABM: ",error);
+
+    			return error;
+    		}
+    		);
+
+    }
+
+
+}
+
+
+
+
+
+
+/*
+    $http.get('http://localhost/ws1/usuarios')
+ 	.then(function(respuesta) {     	
+
+      	 $scope.ListadoPersonas = respuesta.data;
+      	 console.log("Listado de Personas1:",respuesta.data);
+      	 
+
+    },function errorCallback(response) {
+     		 $scope.ListadoPersonas= [];
+     		console.log( response);
+     			
+ 	 });
+*/
+
+
+
+  });
